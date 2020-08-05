@@ -32,24 +32,23 @@ def solve(x):
     in0 = x
     if in0 == ' ':
         out2 = ' '
-        print(out2)
+        return(out2)
     else:
         out0 = alpha[default.index(in0)]
         out1 = beta[default.index(out0)]
         out2 = candy[default.index(out1)]
-        outref = default[25 - default.index(out2)]
+        outref = default[25 - default.index(out2)] # reflector
         var = candy.index(outref)
         out3 = default[var]
         out4 = default[beta.index(out3)]
         out5 = default[alpha.index(out4)]
         # alternatively : out5 = default[alpha.index(default[beta.index(default[candy.index(default[25 - default.index(out2)])])])]
-        print("out: ", out5)
-        
         twist(alpha)
         if alpha[0] == rev:
             twist(beta)
             if beta[0] == rev2:
                 twist(candy)
+        return(out5)
 
 def code(x):
     global in0, default, alpha, beta, candy
@@ -58,7 +57,7 @@ def code(x):
     in0 = x
     if in0 == ' ':
         out2 = ' '
-        print(out2)
+        return(out2)
     else:
         out0 = alpha[default.index(in0)]
         out1 = beta[default.index(out0)]
@@ -67,12 +66,12 @@ def code(x):
         out3 = default[candy.index(outref)]
         out4 = default[beta.index(out3)]
         out5 = default[alpha.index(out4)]
-        print("out:", out5)
         twist(alpha)
         if alpha[0] == rev:
             twist(beta)
             if beta[0] == rev2:
                 twist(candy)
+        return(out5)
 
 def set(roller, x):
     setto = str(x)
@@ -87,20 +86,26 @@ def reset():
     set(beta, rollerb)
     set(candy, rollerc)
 
-rollera = 'd'
-rollerb = 'o'
-rollerc = 'g'
+rollera = 'r' # set "initial position" for roller 1
+rollerb = 'a' # set "initial position" for roller 2
+rollerc = 't' # set "initial position" for roller 3
 
 reset()
 
-mess = "hello world"
-coded = "yzqoj zfaek" # "ecklp yrvqj"
+message = "Percy Raisin Badger" # Put message to be coded here
+coded_message = "qzkxz etjxfy ihcxxi" # Put message to be decoded here
 
-print("In: ", mess)
-for x in mess.lower():
-    code(x)
 
+messy = ""
+solvy = ""
+
+for x in message.lower():
+    messy += code(x)    
 reset()
-print("solver: ")
-for x in coded.lower():
-    solve(x)
+for x in coded_message.lower():
+    solvy += solve(x)
+
+print("In: ", message)
+print("Coded message:", messy)
+print("Message to decode:", coded_message)
+print("Decoded message:", solvy)
