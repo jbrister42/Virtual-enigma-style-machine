@@ -63,7 +63,6 @@ def code(x):
         in2 = default.index(out1)
         out2 = candy[in2]
         print("out: ", out2)
-        print(alpha)
         twist(alpha)
         if alpha[0] == rev:
             twist(beta)
@@ -83,20 +82,18 @@ def reset():
     set(beta, rollerb)
     set(candy, rollerc)
 
-rollera = 'd'
-rollerb = 'o'
-rollerc = 'g'
+rollera = 'd' # choose what to set roller a to
+rollerb = 'o' # set roller b
+rollerc = 'g' # set roller c
 
 reset()
 
-mess = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-coded = " "
+mess = "hello world" # message to be coded
+coded = " " # coded message to be decrypted
 
 print("In: ", mess)
 for x in mess:
     code(x)
-    print(beta)
-    print(candy)
 
 reset()
 print("solver: ")
