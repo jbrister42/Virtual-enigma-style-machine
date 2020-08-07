@@ -48,7 +48,10 @@ def solve(x):
         out2 = ' '
         return(out2)
     else:
-        out = get_key(in0)
+        if in0 in plugboard.values():
+            out = get_key(in0)
+        else:
+            out = plugboard[in0]
         out0 = alpha[default.index(out)]
         out1 = beta[default.index(out0)]
         out2 = candy[default.index(out1)]
@@ -57,7 +60,10 @@ def solve(x):
         out3 = default[var]
         out4 = default[beta.index(out3)]
         out5 = default[alpha.index(out4)]
-        outfinal = get_key(out5)
+        if out5 in plugboard.values():
+            outfinal = get_key(out5)
+        else:
+            outfinal = plugboard[out5]
         # alternatively : out5 = default[alpha.index(default[beta.index(default[candy.index(default[25 - default.index(out2)])])])]
         twist(alpha)
         if alpha[0] == rev:
@@ -75,7 +81,10 @@ def code(x):
         out2 = ' '
         return(out2)
     else:
-        out = plugboard[in0]
+        if in0 in plugboard:
+            out = plugboard[in0]
+        else:
+            out = get_key(in0)
         out0 = alpha[default.index(out)]
         out1 = beta[default.index(out0)]
         out2 = candy[default.index(out1)]
@@ -85,8 +94,10 @@ def code(x):
         out3 = default[candy.index(outref)]
         out4 = default[beta.index(out3)]
         out5 = default[alpha.index(out4)]
-        #print(out5)
-        outfinal = plugboard[out5]
+        if out5 in plugboard:
+            outfinal = plugboard[out5]
+        else:
+            outfinal = get_key(out5)
         twist(alpha)
         if alpha[0] == rev:
             twist(beta)
@@ -110,6 +121,7 @@ def reset():
 def send():
     messy = ""
     solvy = ""
+    reset()
     for x in message.lower():
         messy += code(x)    
     reset()
@@ -126,40 +138,42 @@ def send():
     print("Roller B initial position: ", rollerb)
     print("Roller C initial position: ", rollerc)
 
-plugboard = {'a':'u', # Manually set plugboard settings
-             'b':'l',
-             'c':'x',
-             'd':'e',
-             'e':'k',
-             'f':'i',
-             'g':'j',
-             'h':'d',
-             'i':'a',
-             'j':'q',
-             'k':'c',
-             'l':'h',
-             'm':'v',
-             'n':'f',
-             'o':'m',
-             'p':'z',
-             'q':'o',
-             'r':'w',
-             's':'p',
-             't':'g',
-             'u':'n',
-             'v':'b',
-             'w':'r',
-             'x':'s',
-             'y':'y',
-             'z':'t'}
+def rand_plugboard():
+    plugboard.clear()
+    alp = list(string.ascii_lowercase)
+    while alp:
+        a = random.choice(alp)
+        alp.remove(a)
+        b = random.choice(alp)
+        alp.remove(b)
+        plugboard[a] = b
+        
+def check_plugboard():
+    checker = []
+    for x in plugboard:
+        checker.append(x)
+    for x in plugboard.values():
+        checker.append(x)
+    check = []
+    for x in default:
+        counter = 0
+        for y in checker:
+            if x == y:
+                counter += 1
+        check.append(counter)
+    if all(i == 1 for i in check):
+        send()
+    else:
+        return(print("Invalid plugboard setting"))
 
-rollera = 'r' # set "initial position" for roller 1
-rollerb = 'a' # set "initial position" for roller 2
-rollerc = 't' # set "initial position" for roller 3
+plugboard = {'k': 't', 's': 'i', 'f': 'p', 'o': 'n', 'b': 'v', 'c': 'x', 'a': 'l', 'e': 'g', 'r': 'q', 'w': 'd', 'm': 'j', 'h': 'u', 'y': 'z'}
 
-reset()
+rollera = 'p' # set "initial position" for roller 1
+rollerb = 'j' # set "initial position" for roller 2
+rollerc = 'x' # set "initial position" for roller 3
 
-message = "Percy Raisin Badger" # Put message to be coded here
-coded_message = "jgixt ttwufj yflnwe" # Put message to be decoded here
+message = "Percy raisin badger kaiser tyki dolly darcy" # Put message to be coded here
+coded_message = 'gvfex mjwayv ilowyo snpoov pnif mrvyz ysvin' # Put message to be decoded here
 
-send()
+#rand_plugboard() # This will generate a random, physically valid plugboard combination (replacing the manually input combination shown above)
+check_plugboard() # This checks if the plugboard combination is physically possible and executes the main loop
