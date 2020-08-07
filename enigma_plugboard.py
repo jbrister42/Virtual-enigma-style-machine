@@ -167,7 +167,7 @@ def check_plugboard():
         return(print("Invalid plugboard setting"))
 
 plugboard = {'k': 't', 's': 'i', 'f': 'p', 'o': 'n', 'b': 'v', 'c': 'x', 'a': 'l', 'e': 'g', 'r': 'q', 'w': 'd', 'm': 'j', 'h': 'u', 'y': 'z'}
-
+# to be physically valid, all letters must appear exactly once as either a key or a value
 rollera = 'p' # set "initial position" for roller 1
 rollerb = 'j' # set "initial position" for roller 2
 rollerc = 'x' # set "initial position" for roller 3
